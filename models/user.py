@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """ holds class User"""
+
+
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
@@ -10,7 +12,7 @@ import hashlib
 
 
 class User(BaseModel, Base):
-    """Representation of a user"""
+    """Representation of a user """
     if models.storage_t == 'db':
         __tablename__ = 'users'
         email = Column(String(128), nullable=False)
@@ -26,18 +28,13 @@ class User(BaseModel, Base):
         last_name = ""
 
     def __init__(self, *args, **kwargs):
-        """Initializes user"""
+        """initializes user"""
         super().__init__(*args, **kwargs)
 
-        if 'password' in kwargs:
-            self.password = hashlib.md5
-            (kwargs['password'].encode()).hexdigest()
-
-    def to_dict(self):
-        """Returns a dictionary representation of User,
-            excluding 'password'.
-        """
-        user_dict = super().to_dict()
-        if 'password' in user_dict and models.storage_t != 'db':
-            del user_dict['password']
-        return user_dict
+    def __setattr__(self, name, value):
+        """a dict representation of User minus password"""
+        if name == 'password' and isinstance(value, str):
+            m = hashlib.md5(value.encode()).hexdigest()
+            super().__setattr__(name, m)
+        else:
+            super().__setattr__(name, value)
