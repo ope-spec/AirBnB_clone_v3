@@ -73,3 +73,6 @@ def update_user(user_id):
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
