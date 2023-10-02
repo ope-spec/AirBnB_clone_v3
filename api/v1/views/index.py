@@ -10,7 +10,7 @@ from models import storage
 app = Flask(__name__)
 
 
-@app_views.route('/status')
+@app_views.route('/api/v1/status')
 def get_status():
     """
     Returns the status of the API.
