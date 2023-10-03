@@ -14,6 +14,9 @@ app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
 
 cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+port = int(os.getenv('HBNB_API_PORT', 5000))
+threaded = True
 
 
 @app.teardown_appcontext
@@ -29,7 +32,4 @@ def not_found(error):
 
 
 if __name__ == "__main__":
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = int(os.getenv('HBNB_API_PORT', 5000))
-    threaded = True
     app.run(host=host, port=port, threaded=threaded)
