@@ -7,7 +7,7 @@ This module defines the view for User objects.
 from flask import Flask, jsonify, request, abort
 from models import storage
 from models.user import User
-from api.v1.views import app_views
+from api.v1.views import app_views, host, port, threaded
 
 
 app = Flask(__name__)
@@ -83,9 +83,3 @@ def update_user(user_id):
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200
-
-
-if __name__ == "__main__":
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = os.getenv('HBNB_API_PORT', 5000)
-    app.run(host=host, port=port, threaded=True)
