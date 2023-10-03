@@ -10,8 +10,9 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import inspect
 
-time = "%Y-%m-%dT%H:%M:%S.%f"
+time_format = "%Y-%m-%dT%H:%M:%S.%f"
 
 if models.storage_t == "db":
     Base = declarative_base()
@@ -59,17 +60,27 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values of the instance"""
-        new_dict = self.__dict__.copy()
-        if "created_at" in new_dict:
-            new_dict["created_at"] = new_dict["created_at"].strftime(time)
-        if "updated_at" in new_dict:
-            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        """
+        Returns a dictionary representation of the instance.
+        """
+        new_dict = {
+            key: value
+            for key, value in self.__dict__.items()
+            if key != "_sa_instance_state"
+        }
+        if hasattr(self, "created_at"):
+            new_dict["created_at"] = self.created_at.strftime(time_format)
+        if hasattr(self, "updated_at"):
+            new_dict["updated_at"] = self.updated_at.strftime(time_format)
+
         new_dict["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dict:
-            del new_dict["_sa_instance_state"]
+        call_funct = inspect.currentframe().f_back.f_code.co_name
+        is_fs_class = getattr(self, '__class__.__name__', '') == 'FileStorage'
+        is_fs_writing = call_funct == 'save' and is_fs_class
+        if 'password' in new_dict and not is_fs_writing:
+            del new_dict['password']
         return new_dict
 
     def delete(self):
-        """delete the current instance from the storage"""
+        """Deletes the current instance from the storage"""
         models.storage.delete(self)
