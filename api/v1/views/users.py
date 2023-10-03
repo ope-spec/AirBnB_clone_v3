@@ -4,13 +4,10 @@ This module defines the view for User objects.
 """
 
 
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from models import storage
 from models.user import User
-from api.v1.views import app_views, host, port, threaded
-
-
-app = Flask(__name__)
+from api.v1.views import app_views
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)

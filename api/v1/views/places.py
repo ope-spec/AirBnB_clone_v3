@@ -2,13 +2,12 @@
 """Defines the API routes for Place objects."""
 
 
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from models import storage
 from models.place import Place
 from models.city import City
 from models.user import User
 from api.v1.views import app_views
-app = Flask(__name__)
 
 
 @app_views.route('/cities/<city_id>/places',

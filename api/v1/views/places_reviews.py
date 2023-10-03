@@ -4,13 +4,12 @@ This module defines the view for Review objects.
 """
 
 
-from flask import Flask, jsonify, request, abort
+from flask import jsonify, request, abort
 from models import storage
 from models.review import Review
 from models.place import Place
 from models.user import User
 from api.v1.views import app_views
-app = Flask(__name__)
 
 
 @app_views.route('/places/<string:place_id>/reviews',

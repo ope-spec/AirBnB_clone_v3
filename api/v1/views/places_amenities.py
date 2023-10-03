@@ -9,7 +9,6 @@ from models import storage
 from models.place import Place
 from models.amenity import Amenity
 from api.v1.views import app_views
-app = Flask(__name__)
 
 
 @app_views.route('/places/<string:place_id>/amenities',

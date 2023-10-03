@@ -14,9 +14,5 @@ from api.v1.views.users import *
 from api.v1.views.places import *
 from api.v1.views.places_amenities import *
 from api.v1.views.places_reviews import *
-if __name__ == "__main__":
-    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
-    port = int(os.getenv('HBNB_API_PORT', 5000))
-    threaded = True
-    app.run(host=host, port=port, threaded=threaded)
+
 
