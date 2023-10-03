@@ -15,7 +15,9 @@ app = Flask(__name__)
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
-    """Retrieves the list of all User objects."""
+    """
+    Retrieves the list of all User objects.
+    """
     users = [user.to_dict() for user in storage.all(User).values()]
     return jsonify(users)
 
@@ -23,7 +25,9 @@ def get_users():
 @app_views.route('/users/<user_id>',
                  methods=['GET'], strict_slashes=False)
 def get_user(user_id):
-    """Retrieves a User object by its id."""
+    """
+    Retrieves a User object by its id.
+    """
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
@@ -33,18 +37,22 @@ def get_user(user_id):
 @app_views.route('/users/<user_id>',
                  methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
-    """Deletes a User object by its id."""
+    """
+    Deletes a User object by its id.
+    """
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
     storage.delete(user)
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
-    """Creates a new User object."""
+    """
+    Creates a new User object.
+    """
     data = request.get_json()
     if data is None:
         return jsonify({"error": "Not a JSON"}), 400
@@ -60,7 +68,9 @@ def create_user():
 @app_views.route('/users/<user_id>',
                  methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
-    """Updates a User object by its id."""
+    """
+    Updates a User object by its id.
+    """
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
