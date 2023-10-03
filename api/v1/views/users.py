@@ -83,3 +83,9 @@ def update_user(user_id):
             setattr(user, key, value)
     storage.save()
     return jsonify(user.to_dict()), 200
+
+
+if __name__ == "__main__":
+    host = os.getenv('HBNB_API_HOST', '0.0.0.0')
+    port = os.getenv('HBNB_API_PORT', 5000)
+    app.run(host=host, port=port, threaded=True)
