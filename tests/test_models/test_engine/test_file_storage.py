@@ -125,5 +125,3 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(json.loads(string), json.loads(js))
 
     
-    def test_get_method(self):
-        
